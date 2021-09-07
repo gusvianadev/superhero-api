@@ -1,32 +1,54 @@
+import { Button } from 'react-bootstrap';
+import { FaSearch, FaTrashAlt } from 'react-icons/fa';
 import HeroesTableSty from './HeroesTable.styles';
 
-const HeroesTable = () => {
-	console.log('heroes!');
-	return (
-		<HeroesTableSty className="table">
-			<thead>
-				<tr>
-					<th scope="col">#</th>
-					<th scope="col">sprite</th>
-					<th scope="col">stats</th>
-					<th scope="col">actions</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<th scope="row">1</th>
-					<td>
-						<img
-							src="https://www.superherodb.com/pictures2/portraits/10/100/10060.jpg"
-							alt="hero"
-						/>
-					</td>
-					<td>64, 80, 38, 24, 17, 100</td>
-					<td>det, del</td>
-				</tr>
-			</tbody>
-		</HeroesTableSty>
-	);
-};
+const HeroesTable = ({ heroList, setHeroList }) => (
+	<HeroesTableSty>
+		<thead>
+			<tr>
+				<th scope="col">name</th>
+				<th scope="col">sprite</th>
+				<th scope="col">stats</th>
+				<th scope="col">actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{heroList &&
+				heroList.map(({ id, name, image, powerstats }) => (
+					<tr key={`table item for hero with id ${id}`}>
+						<th scope="row">{name}</th>
+						<td className="table__sprite">
+							<img
+								src={image.url}
+								alt={`hero list item for ${name}`}
+							/>
+						</td>
+						<td>
+							{Object.values(powerstats).map((stat) =>
+								stat !== 'null' ? `${stat}, ` : 'unknown, '
+							)}
+						</td>
+						<td>
+							<Button>
+								<FaSearch />
+							</Button>
+							<Button
+								variant="danger"
+								onClick={() =>
+									setHeroList(
+										heroList.filter(
+											(hero) => hero.id !== id
+										)
+									)
+								}
+							>
+								<FaTrashAlt />
+							</Button>
+						</td>
+					</tr>
+				))}
+		</tbody>
+	</HeroesTableSty>
+);
 
 export default HeroesTable;

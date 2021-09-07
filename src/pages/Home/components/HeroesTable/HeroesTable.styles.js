@@ -1,13 +1,11 @@
+import { Table } from 'react-bootstrap';
 import styled from 'styled-components';
 
-const HeroesTableSty = styled.table`
-	& tr {
-		max-height: 30px;
-	}
+const HeroesTableSty = styled(Table)`
+	color: inherit;
 
-	& img {
-		width: 100%;
-		height: auto;
+	& .table__sprite {
+		width: 30px;
 	}
 `;
 

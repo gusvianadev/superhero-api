@@ -15,6 +15,7 @@
 	"rules": {
 		"consistent-return": "off",
 		"global-require": "off",
+		"import/prefer-default-export": "off",
 		"no-inner-declarations": "off",
 		"no-param-reassign": "off",
 		"no-return-assign": "off",
