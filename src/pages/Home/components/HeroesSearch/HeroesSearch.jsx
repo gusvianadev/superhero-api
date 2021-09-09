@@ -1,13 +1,11 @@
 import { useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
-import HomeFn from '../../Home.functions';
 import SearchResSty from './HeroesSearch.styles';
+import HeroSearchFn from './HeroesSearch.functions';
 
 const HeroesSearch = ({ heroList, setHeroList }) => {
 	const [searchRes, setSearchRes] = useState(null);
-	const { isLoading, isError, searchHeroes } = HomeFn({
-		setSearchRes,
-	});
+	const { isLoading, isError, searchHeroes } = HeroSearchFn({ setSearchRes });
 
 	return (
 		<Form.Group className="position-relative mt-3 d-flex">
@@ -15,7 +13,9 @@ const HeroesSearch = ({ heroList, setHeroList }) => {
 				className="me-2"
 				type="text"
 				placeholder="search hero..."
-				onChange={({ target }) => searchHeroes(target.value)}
+				onChange={({ target }) =>
+					searchHeroes(target.value, setSearchRes)
+				}
 			/>
 			<Button type="submit">add</Button>
 			{searchRes && (

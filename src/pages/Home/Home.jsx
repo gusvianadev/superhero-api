@@ -1,12 +1,26 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, Col, Container, Row } from 'react-bootstrap';
-import { powerstats } from './Home.vars';
 import HeroesTable from './components/HeroesTable/HeroesTable';
 import HeroesSearch from './components/HeroesSearch/HeroesSearch';
 import Chart from '../../components/Chart/Chart';
+import HomeFn from './Home.functions';
 
 const Home = () => {
 	const [heroList, setHeroList] = useState([]);
+	const [totalStats, setTotalStats] = useState({});
+	const [heightAndWeight, setHeightAndWeight] = useState({
+		height: 0,
+		weight: 0,
+	});
+	const { getTotalStats } = HomeFn({
+		heroList,
+		setHeightAndWeight,
+		setTotalStats,
+	});
+
+	useEffect(() => {
+		getTotalStats(heroList, setHeightAndWeight, setTotalStats);
+	}, [heroList]);
 
 	return (
 		<Container fluid>
@@ -14,14 +28,20 @@ const Home = () => {
 				<Col sm={{ span: 4, order: 'last' }}>
 					<Card className="my-2 bg-secondary">
 						<Card.Body>Strong</Card.Body>
-						<Card.Body>height</Card.Body>
-						<Card.Body>weight</Card.Body>
+						<Card.Body>
+							Average Height: {heightAndWeight.height.toFixed(1)}
+							cm
+						</Card.Body>
+						<Card.Body>
+							Average Weight: {heightAndWeight.weight.toFixed(1)}
+							kg
+						</Card.Body>
 					</Card>
 					<Chart
 						id="team-powerstats"
-						values={powerstats}
+						values={totalStats}
 						max={600}
-						bgClr="white"
+						bgClr="#ffffff"
 					/>
 				</Col>
 				<Col sm={{ span: 8, order: 'first' }}>

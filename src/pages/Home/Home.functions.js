@@ -1,54 +1,41 @@
 import { useState } from 'react';
 import axios from 'axios';
 
-const HomeFn = ({ setSearchRes }) => {
-	const [isLoading, setIsLoading] = useState(false);
-	const [isError, setIsError] = useState(false);
-	const [cancelToken, setCancelToken] = useState(null);
+const HomeFn = ({ heroList, setHeightAndWeight, setTotalStats }) => {
+	const getTotalStats = () => {
+		const newStats = {
+			combat: 0,
+			durability: 0,
+			intelligence: 0,
+			power: 0,
+			speed: 0,
+			strength: 0,
+		};
 
-	const errorMessages = {
-		newRequest: 'New request',
-		notFound: 'Superhero not found',
+		const newHeightAndWeight = {
+			height: 0,
+			weight: 0,
+		};
+
+		heroList.forEach(({ powerstats, appearance }, i) => {
+			const heroH = parseInt(appearance.height[1].split(' ')[0], 10);
+			const heroW = parseInt(appearance.weight[1].split(' ')[0], 10);
+
+			Object.entries(powerstats).forEach(
+				(entry) => (newStats[entry[0]] += parseInt(entry[1], 10) || 0)
+			);
+
+			newHeightAndWeight.height =
+				(newHeightAndWeight.height + heroH) / (i + 1);
+			newHeightAndWeight.weight =
+				(newHeightAndWeight.weight + heroW) / (i + 1);
+		});
+
+		setHeightAndWeight(newHeightAndWeight);
+		setTotalStats(newStats);
 	};
 
-	const searchHeroes = async (heroName) => {
-		setIsError(false);
-
-		if (cancelToken) {
-			cancelToken.cancel(errorMessages.newRequest);
-		}
-
-		if (heroName.length > 2) {
-			setIsLoading(true);
-
-			const source = axios.CancelToken.source();
-			setCancelToken(source);
-
-			try {
-				const { data } = await axios.get(
-					`https://superheroapi.com/api.php/1525842291092605/search/${heroName}`,
-					{ cancelToken: source.token }
-				);
-
-				if (data.response === 'success') {
-					setSearchRes(data.results);
-				} else {
-					throw new Error(errorMessages.notFound);
-				}
-			} catch (error) {
-				if (error.message !== 'New request') {
-					setIsError(true);
-					setSearchRes(null);
-				}
-			}
-			setIsLoading(false);
-		} else {
-			setSearchRes(null);
-			setCancelToken(null);
-		}
-	};
-
-	return { isLoading, isError, searchHeroes };
+	return { getTotalStats };
 };
 
 export default HomeFn;

@@ -9,7 +9,8 @@ export const ChartSty = styled.div`
 `;
 
 export const ChartBarSty = styled.div`
-	background-color: ${({ $barClr }) => $barClr};
+	background-color: ${({ theme, $name }) => theme[`clr__${$name}`]};
 	height: ${({ $height }) => `${$height}%`};
+	transition: all 0.5s ease;
 	width: 13%;
 `;

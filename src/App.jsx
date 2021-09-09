@@ -6,7 +6,6 @@ import AppSty from './App.styles';
 import Home from './pages/Home/Home';
 import Login from './pages/Login/Login';
 
-// TODO: re-learn react-router-dom
 const App = () => (
 	<ThemeProvider theme={dark}>
 		<AppSty>
