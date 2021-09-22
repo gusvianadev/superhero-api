@@ -10,6 +10,9 @@ export const dark = {
 	clr__power: '#1ec422',
 	clr__speed: '#c4c41e',
 	clr__strength: '#c61a1a',
+	clr__good: '#1D6E09',
+	clr__bad: '#8E0500',
+	clr__neutral: '#04318F',
 };
 
 export const light = {

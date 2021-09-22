@@ -13,6 +13,7 @@
 	},
 	"plugins": ["react"],
 	"rules": {
+		"arrow-body-style": "warn",
 		"consistent-return": "off",
 		"global-require": "off",
 		"import/prefer-default-export": "off",

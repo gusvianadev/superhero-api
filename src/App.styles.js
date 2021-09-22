@@ -5,6 +5,7 @@ const AppSty = styled.div`
 	color: ${({ theme }) => theme.clrContrast};
 	font-family: ${({ theme }) => theme.fontFamily};
 	height: 100%;
+	overflow: auto;
 	width: 100%;
 
 	img {

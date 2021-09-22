@@ -1,7 +1,9 @@
-import { useState } from 'react';
-import axios from 'axios';
-
-const HomeFn = ({ heroList, setHeightAndWeight, setTotalStats }) => {
+const HomeFn = ({
+	heroList,
+	setHeightAndWeight,
+	setTotalStats,
+	totalStats,
+}) => {
 	const getTotalStats = () => {
 		const newStats = {
 			combat: 0,
@@ -17,7 +19,7 @@ const HomeFn = ({ heroList, setHeightAndWeight, setTotalStats }) => {
 			weight: 0,
 		};
 
-		heroList.forEach(({ powerstats, appearance }, i) => {
+		heroList.forEach(({ powerstats, appearance }) => {
 			const heroH = parseInt(appearance.height[1].split(' ')[0], 10);
 			const heroW = parseInt(appearance.weight[1].split(' ')[0], 10);
 
@@ -25,17 +27,35 @@ const HomeFn = ({ heroList, setHeightAndWeight, setTotalStats }) => {
 				(entry) => (newStats[entry[0]] += parseInt(entry[1], 10) || 0)
 			);
 
-			newHeightAndWeight.height =
-				(newHeightAndWeight.height + heroH) / (i + 1);
-			newHeightAndWeight.weight =
-				(newHeightAndWeight.weight + heroW) / (i + 1);
+			// accumulate all height and weight
+			newHeightAndWeight.height += heroH;
+			newHeightAndWeight.weight += heroW;
 		});
+
+		// calculate the average
+		newHeightAndWeight.height /= heroList.length;
+		newHeightAndWeight.weight /= heroList.length;
 
 		setHeightAndWeight(newHeightAndWeight);
 		setTotalStats(newStats);
 	};
 
-	return { getTotalStats };
+	const getTeamType = () => {
+		const teamStatsEntries = Object.entries(totalStats);
+		const highestStat = {
+			name: '',
+			val: 0,
+		};
+
+		teamStatsEntries.forEach((entry) => {
+			if (entry[1] > highestStat.val) {
+				[highestStat.name, highestStat.val] = entry;
+			}
+		});
+
+		return highestStat.name;
+	};
+	return { getTotalStats, getTeamType };
 };
 
 export default HomeFn;

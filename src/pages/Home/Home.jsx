@@ -12,39 +12,52 @@ const Home = () => {
 		height: 0,
 		weight: 0,
 	});
-	const { getTotalStats } = HomeFn({
+	const { getTotalStats, getTeamType } = HomeFn({
 		heroList,
 		setHeightAndWeight,
 		setTotalStats,
+		totalStats,
 	});
 
 	useEffect(() => {
-		getTotalStats(heroList, setHeightAndWeight, setTotalStats);
+		if (heroList.length > 0) {
+			getTotalStats();
+		}
 	}, [heroList]);
 
 	return (
-		<Container fluid>
+		<Container fluid id="home-container">
 			<Row>
-				<Col sm={{ span: 4, order: 'last' }}>
+				<Col md={{ span: 4, order: 'last' }}>
 					<Card className="my-2 bg-secondary">
-						<Card.Body>Strong</Card.Body>
-						<Card.Body>
-							Average Height: {heightAndWeight.height.toFixed(1)}
-							cm
+						<Card.Body className="text-center text-uppercase">
+							{getTeamType() || 'Select a hero'}
+						</Card.Body>
+						<Card.Body className="d-flex justify-content-between">
+							Height:
+							<span>
+								{heightAndWeight.height.toFixed(1)}
+								cm
+							</span>
+						</Card.Body>
+						<Card.Body className="d-flex justify-content-between">
+							Weight:
+							<span>
+								{heightAndWeight.weight.toFixed(1)}
+								kg
+							</span>
 						</Card.Body>
 						<Card.Body>
-							Average Weight: {heightAndWeight.weight.toFixed(1)}
-							kg
+							<Chart
+								id="team-powerstats"
+								values={totalStats}
+								max={600}
+								bgClr="#ffffff"
+							/>
 						</Card.Body>
 					</Card>
-					<Chart
-						id="team-powerstats"
-						values={totalStats}
-						max={600}
-						bgClr="#ffffff"
-					/>
 				</Col>
-				<Col sm={{ span: 8, order: 'first' }}>
+				<Col md={{ span: 8, order: 'first' }}>
 					<HeroesSearch
 						heroList={heroList}
 						setHeroList={setHeroList}
