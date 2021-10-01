@@ -63,6 +63,9 @@ const Login = ({ setIsLogged }) => {
 						>
 							Submit
 						</Button>
+						{loginErr && (
+							<div>Wrong user or password, please try again.</div>
+						)}
 					</FormSty>
 				)}
 			</Formik>

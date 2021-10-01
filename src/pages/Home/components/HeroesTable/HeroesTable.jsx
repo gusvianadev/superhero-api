@@ -49,12 +49,22 @@ const HeroesTable = ({ heroList, setHeroList }) => {
 									/>
 								</td>
 								<td className="text-uppercase">
-									{Object.entries(powerstats).map((stat) =>
-										stat !== 'null'
-											? `${stat[0].slice(0, 3)}: ${
-													stat[1]
-											  }, `
-											: 'unknown, '
+									{/* si el heroe no tiene esa stat, la deja como "unknown" */}
+									{Object.entries(powerstats).map(
+										(stat, n) => (
+											<span>
+												{stat !== 'null'
+													? `${stat[0].slice(
+															0,
+															3
+													  )}: ${stat[1]}${
+															n < 5 ? ',' : ''
+													  } `
+													: `unknown${
+															n < 5 ? ',' : ''
+													  }  `}
+											</span>
+										)
 									)}
 								</td>
 								<td>
